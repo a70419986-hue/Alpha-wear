@@ -1,19 +1,29 @@
 const data=[
-['Classic Leather Wallet','Wallets','PKR 1,499','PKR 2,999','01','50% OFF'],
-['Executive Belt','Belts','PKR 1,299','PKR 2,499','02','NEW'],
-['Urban Runner','Shoes','PKR 3,499','PKR 5,000','03','SALE'],
-['Aviator Black','Sunglasses','PKR 1,799','PKR 2,999','04','SALE'],
-['Signature Noir','Perfumes','PKR 2,499','PKR 4,000','05','NEW'],
-['Alpha Classic','Watches','PKR 3,000','PKR 5,000','06','SALE'],
-['Essential Cap','Caps','PKR 999','PKR 1,499','07','NEW'],
-['Premium Card Holder','Wallets','PKR 1,199','PKR 2,000','08','SALE']
+{name:'Classic Leather Wallet',cat:'Wallets',price:1499,old:2999,badge:'50% OFF',symbol:'▣',desc:'Clean everyday leather wallet with a compact, practical profile.'},
+{name:'Executive Belt',cat:'Belts',price:1299,old:2499,badge:'NEW',symbol:'◈',desc:'A refined belt designed to finish smart and casual outfits.'},
+{name:'Urban Runner',cat:'Shoes',price:3499,old:5000,badge:'SALE',symbol:'◉',desc:'Everyday comfort with a modern streetwear-inspired silhouette.'},
+{name:'Aviator Black',cat:'Sunglasses',price:1799,old:2999,badge:'SALE',symbol:'◇',desc:'Classic black-frame sunglasses for a clean, confident look.'},
+{name:'Signature Noir',cat:'Perfumes',price:2499,old:4000,badge:'NEW',symbol:'✦',desc:'A bold signature fragrance concept for evening and everyday wear.'},
+{name:'Alpha Classic',cat:'Watches',price:3000,old:5000,badge:'SALE',symbol:'◌',desc:'A timeless watch-inspired accessory with a premium visual style.'},
+{name:'Essential Cap',cat:'Caps',price:999,old:1499,badge:'NEW',symbol:'△',desc:'A simple everyday cap designed to pair easily with casual fits.'},
+{name:'Premium Card Holder',cat:'Wallets',price:1199,old:2000,badge:'SALE',symbol:'▱',desc:'Slim card holder for carrying the essentials without bulk.'}
 ];
 let current='All',cart=[];
-function filter(c){current=c;document.querySelectorAll('.filters button').forEach(b=>b.classList.toggle('active',b.textContent===c));render();document.querySelector('#shop').scrollIntoView({behavior:'smooth'});}
-function render(){const q=(document.querySelector('#search')?.value||'').toLowerCase();const list=data.filter(p=>(current==='All'||p[1]===current)&&p.join(' ').toLowerCase().includes(q));document.querySelector('#products').innerHTML=list.map((p,i)=>`<article class="product"><span class="badge">${p[5]}</span><div class="product-img">${['▣','◈','◉','◇','✦','◌','△','▱'][i%8]}</div><div class="product-info"><h3>${p[0]}</h3><p>${p[1]} · Alpha Wear</p><div class="price"><span class="old">${p[3]}</span>${p[2]} <button class="add" onclick="add(${data.indexOf(p)})">ADD</button></div></div></article>`).join('')||'<div class="empty">No products found.</div>';}
-function add(i){cart.push(data[i]);document.querySelector('#count').textContent=cart.length;showToast(data[i][0]+' added to bag');}
-function openCart(){const el=document.querySelector('#cart');el.style.display='flex';document.querySelector('#cartItems').innerHTML=cart.length?cart.map((p,i)=>`<div class="cart-row"><span>${p[0]}</span><b>${p[2]}</b></div>`).join(''):'<div class="empty">Your bag is empty.</div>';document.querySelector('#total').textContent='PKR '+cart.reduce((s,p)=>s+parseInt(p[2].replace(/\D/g,'')),0).toLocaleString();}
-function closeCart(){document.querySelector('#cart').style.display='none'}
-function focusSearch(){document.querySelector('#search').focus();document.querySelector('#shop').scrollIntoView({behavior:'smooth'})}
-function showToast(t){const e=document.querySelector('#toast');e.textContent=t;e.style.display='block';clearTimeout(window.tt);window.tt=setTimeout(()=>e.style.display='none',2200)}
+const money=n=>'PKR '+Number(n).toLocaleString('en-PK');
+function filter(category){current=category;document.querySelectorAll('.filters button').forEach(btn=>btn.classList.toggle('active',btn.textContent.trim()===category));render();document.querySelector('#shop').scrollIntoView({behavior:'smooth',block:'start'});}
+function render(){const q=(document.querySelector('#search')?.value||'').trim().toLowerCase();const list=data.filter(p=>(current==='All'||p.cat===current)&&`${p.name} ${p.cat} ${p.desc}`.toLowerCase().includes(q));const products=document.querySelector('#products');if(!list.length){products.innerHTML='<div class="empty">No products found. Try another search or category.</div>';return;}products.innerHTML=list.map(p=>{const i=data.indexOf(p);return `<article class="product"><span class="badge">${p.badge}</span><button class="product-img" aria-label="View ${p.name}" onclick="openProduct(${i})"><span class="product-symbol">${p.symbol}</span></button><div class="product-info"><h3>${p.name}</h3><p>${p.cat} · Alpha Wear</p><div class="price"><span class="old">${money(p.old)}</span>${money(p.price)}</div><div class="product-actions"><button class="details" onclick="openProduct(${i})">VIEW</button><button class="add" onclick="add(${i})">ADD TO BAG</button></div></div></article>`;}).join('');}
+function add(index){const item=cart.find(x=>x.index===index);if(item)item.qty+=1;else cart.push({index,qty:1});updateCount();showToast(`${data[index].name} added to your bag.`);}
+function changeQty(index,amount){const item=cart.find(x=>x.index===index);if(!item)return;item.qty+=amount;if(item.qty<=0)cart=cart.filter(x=>x.index!==index);updateCount();openCart();}
+function removeItem(index){cart=cart.filter(x=>x.index!==index);updateCount();openCart();}
+function updateCount(){document.querySelector('#count').textContent=cart.reduce((sum,item)=>sum+item.qty,0);}
+function openCart(){const el=document.querySelector('#cart');el.classList.add('open');document.body.classList.add('lock');const items=document.querySelector('#cartItems');if(!cart.length){items.innerHTML='<div class="empty">Your bag is empty.<br>Add a product to get started.</div>';document.querySelector('#total').textContent=money(0);return;}items.innerHTML=cart.map(item=>{const p=data[item.index];return `<div class="cart-row"><div><strong>${p.name}</strong><small>${p.cat} · ${money(p.price)} each</small><div class="cart-controls"><button class="qty-btn" onclick="changeQty(${item.index},-1)">−</button><span>${item.qty}</span><button class="qty-btn" onclick="changeQty(${item.index},1)">+</button><button class="remove-btn" onclick="removeItem(${item.index})">Remove</button></div></div><b>${money(p.price*item.qty)}</b></div>`;}).join('');const total=cart.reduce((sum,item)=>sum+data[item.index].price*item.qty,0);document.querySelector('#total').textContent=money(total);}
+function closeCart(){document.querySelector('#cart').classList.remove('open');document.body.classList.remove('lock');}
+function openProduct(index){const p=data[index];document.querySelector('#productDetails').innerHTML=`<div class="detail-visual"><span class="product-symbol">${p.symbol}</span></div><div class="detail-copy"><span class="detail-meta">${p.cat} · ${p.badge}</span><h2>${p.name}</h2><p>${p.desc}</p><div class="detail-price"><del>${money(p.old)}</del>${money(p.price)}</div><button class="btn" onclick="add(${index});closeProduct()">ADD TO BAG</button></div>`;document.querySelector('#productModal').classList.add('open');document.body.classList.add('lock');}
+function closeProduct(){document.querySelector('#productModal').classList.remove('open');if(!document.querySelector('#cart').classList.contains('open'))document.body.classList.remove('lock');}
+function checkout(){if(!cart.length){showToast('Your bag is empty.');return;}showToast('Checkout is ready to connect. Add your real WhatsApp number in script.js before taking live orders.');}
+function focusSearch(){document.querySelector('#shop').scrollIntoView({behavior:'smooth',block:'start'});setTimeout(()=>document.querySelector('#search').focus(),350);}
+function showToast(text){const el=document.querySelector('#toast');el.textContent=text;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2800);}
+document.querySelector('#newsletterForm').addEventListener('submit',e=>{e.preventDefault();showToast('Thanks for joining Alpha Wear!');e.target.reset();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeProduct();closeCart();}});
+document.querySelectorAll('.modal').forEach(modal=>modal.addEventListener('click',e=>{if(e.target===modal){modal.id==='cart'?closeCart():closeProduct();}}));
 render();
