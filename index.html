@@ -11,7 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <style>
-.social-buttons{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.social-buttons a{display:inline-flex;align-items:center;justify-content:center;padding:8px 12px;border:1px solid currentColor;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}.header-social{margin-left:10px}.footer-social{margin-top:12px}
+.social-buttons{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.social-buttons a{display:inline-flex;align-items:center;justify-content:center;padding:7px 10px;border:1px solid currentColor;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;line-height:1}.header-social{margin-left:10px}.footer-social{margin-top:12px}
+@media(max-width:900px){.header-social a{padding:7px 8px;font-size:11px}.header-social{gap:4px;margin-left:6px}.actions{gap:6px}}
 </style>
 </head>
 <body>
@@ -22,13 +23,13 @@
     <a href="#shop">Shop</a><a href="#categories">Categories</a><a href="#sale">Sale</a><a href="#about">About</a><a href="#contact">Contact</a>
   </nav>
   <div class="actions">
+    <button class="icon-btn" aria-label="Search" onclick="focusSearch()">⌕</button>
     <div class="social-buttons header-social" aria-label="Alpha Wear social links">
       <a href="https://www.instagram.com/alphawear27/" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
       <a href="https://www.facebook.com/profile.php?id=61592650800407" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
       <a href="https://www.tiktok.com/@alpha.wear53" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
       <a href="https://wa.me/923321957558" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
     </div>
-    <button class="icon-btn" aria-label="Search" onclick="focusSearch()">⌕</button>
     <button class="bag-btn" aria-label="Open shopping bag" onclick="openCart()">Bag <b id="count">0</b></button>
   </div>
 </header>
