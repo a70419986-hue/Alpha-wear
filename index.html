@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Alpha Wear — Men’s Fashion & Accessories</title>
+<meta name="description" content="Alpha Wear — premium men's fashion, wallets, belts, shoes, sunglasses, perfumes, caps and watches.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="announcement">FREE DELIVERY ON ORDERS OVER PKR 5,000 · NEW SEASON HAS ARRIVED</div>
+<header class="header"><a class="logo" href="#">ALPHA <span>WEAR</span></a><nav><a href="#shop">Shop</a><a href="#categories">Categories</a><a href="#sale">Sale</a><a href="#about">About</a><a href="#contact">Contact</a></nav><div class="actions"><button onclick="focusSearch()">⌕</button><button onclick="openCart()">Bag <b id="count">0</b></button></div></header>
+<main>
+<section class="hero"><div class="hero-copy"><p class="eyebrow">THE ALPHA COLLECTION</p><h1>Wear Your<br><em>Confidence.</em></h1><p>Premium men's essentials designed for everyday confidence — from sharp accessories to signature fragrances.</p><a class="btn" href="#shop">SHOP COLLECTION</a></div><div class="hero-art"><div class="circle"></div><div class="model">ALPHA<br><small>STYLE / 2026</small></div></div></section>
+<section class="trust"><div>✦ PREMIUM QUALITY</div><div>↗ FAST DELIVERY</div><div>◇ SECURE CHECKOUT</div><div>✓ EASY ORDERING</div></section>
+<section id="categories" class="section"><div class="section-head"><div><p class="eyebrow">EXPLORE</p><h2>Shop by Category</h2></div></div><div class="cat-grid"><a href="#shop" onclick="filter('Wallets')"><span>01</span><strong>Wallets</strong></a><a href="#shop" onclick="filter('Shoes')"><span>02</span><strong>Shoes</strong></a><a href="#shop" onclick="filter('Sunglasses')"><span>03</span><strong>Sunglasses</strong></a><a href="#shop" onclick="filter('Perfumes')"><span>04</span><strong>Perfumes</strong></a><a href="#shop" onclick="filter('Belts')"><span>05</span><strong>Belts</strong></a><a href="#shop" onclick="filter('Watches')"><span>06</span><strong>Watches</strong></a></div></section>
+<section id="shop" class="section shop"><div class="section-head"><div><p class="eyebrow">CURATED FOR YOU</p><h2>Featured Collection</h2></div><div class="filters"><button class="active" onclick="filter('All')">All</button><button onclick="filter('Wallets')">Wallets</button><button onclick="filter('Shoes')">Shoes</button><button onclick="filter('Sunglasses')">Sunglasses</button><button onclick="filter('Perfumes')">Perfumes</button></div></div><input id="search" class="search" placeholder="Search Alpha Wear products..." oninput="render()"><div id="products" class="products"></div></section>
+<section id="sale" class="promo"><div><p class="eyebrow">ALPHA DEALS</p><h2>Signature style.<br><em>Special prices.</em></h2><p>Upgrade your everyday essentials with selected pieces at special launch prices.</p><a class="btn light" href="#shop" onclick="filter('All')">SHOP SALE</a></div><div class="promo-number">AW<br><span>2026</span></div></section>
+<section id="about" class="about section"><p class="eyebrow">OUR STORY</p><h2>Built for men who<br><em>move with purpose.</em></h2><p>Alpha Wear brings together modern men's accessories and essentials in one clean, premium collection. Every piece is selected to make everyday style feel effortless.</p></section>
+<section class="newsletter"><p class="eyebrow">STAY IN THE LOOP</p><h2>Get Alpha Wear updates.</h2><div><input placeholder="Your email address"><button onclick="showToast('Thanks for joining Alpha Wear!')">JOIN</button></div></section>
+</main>
+<footer id="contact"><div class="footer-brand"><a class="logo" href="#">ALPHA <span>WEAR</span></a><p>Men's fashion & accessories.<br>Wear your confidence.</p></div><div><h4>SHOP</h4><a href="#shop">New Arrivals</a><a href="#shop">Best Sellers</a><a href="#sale">Sale</a></div><div><h4>HELP</h4><a href="#contact">Contact</a><a href="#">Delivery</a><a href="#">Returns</a></div><div><h4>CONNECT</h4><a href="#">Facebook</a><a href="#">Instagram</a><a href="https://wa.me/923000000000">WhatsApp</a></div><div class="copyright">© 2026 Alpha Wear. All rights reserved.</div></footer>
+<div id="cart" class="modal"><div class="modal-box"><button class="close" onclick="closeCart()">×</button><h2>Your Bag</h2><div id="cartItems"></div><div class="total">Total <strong id="total">PKR 0</strong></div><button class="btn full" onclick="showToast('Checkout is ready — connect your preferred payment/order system.')">PROCEED TO ORDER</button></div></div><div id="toast"></div>
+<script src="script.js"></script>
+</body></html>
